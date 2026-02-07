@@ -2,38 +2,6 @@ import { useState } from 'react'
 
 export default function Contact() {
   const [isFormOpen, setIsFormOpen] = useState(false)
-  const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    company: '',
-    message: '',
-    website: '' // Honeypot field - bots will fill this, humans won't see it
-  })
-
-  const handleSubmit = (e) => {
-    e.preventDefault()
-
-    // Honeypot check - if this field is filled, it's a bot
-    if (formData.website) {
-      console.log('Bot detected, submission blocked')
-      // Fake success to not alert the bot
-      alert('Thank you for your message! We will get back to you soon.')
-      return
-    }
-
-    // Handle form submission - you can integrate with a service like Formspree, Netlify Forms, etc.
-    console.log('Form submitted:', formData)
-    alert('Thank you for your message! We will get back to you soon.')
-    setFormData({ name: '', email: '', company: '', message: '', website: '' })
-    setIsFormOpen(false)
-  }
-
-  const handleChange = (e) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value
-    })
-  }
 
   return (
     <section id="contact" className="py-32 bg-gray-950 relative overflow-hidden">
@@ -92,20 +60,18 @@ export default function Contact() {
                 </button>
               </div>
 
-              <form onSubmit={handleSubmit} className="space-y-5">
-                {/* Honeypot field - hidden from humans, bots will fill it */}
-                <div className="absolute -left-[9999px]" aria-hidden="true">
-                  <label htmlFor="website">Website</label>
-                  <input
-                    type="text"
-                    id="website"
-                    name="website"
-                    value={formData.website}
-                    onChange={handleChange}
-                    tabIndex={-1}
-                    autoComplete="off"
-                  />
-                </div>
+              <form
+                action="https://formsubmit.co/taylor@trisoconsulting.com"
+                method="POST"
+                className="space-y-5"
+              >
+                {/* Formsubmit configuration */}
+                <input type="hidden" name="_subject" value="New contact from T Riso Consulting website" />
+                <input type="hidden" name="_next" value="https://trisoconsulting.com/#contact" />
+                <input type="hidden" name="_captcha" value="false" />
+
+                {/* Honeypot field - Formsubmit's built-in spam protection */}
+                <input type="text" name="_honey" style={{ display: 'none' }} />
 
                 <div>
                   <label htmlFor="name" className="block text-sm text-gray-400 mb-2">Name</label>
@@ -113,8 +79,6 @@ export default function Contact() {
                     type="text"
                     id="name"
                     name="name"
-                    value={formData.name}
-                    onChange={handleChange}
                     required
                     className="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-3 text-white placeholder-gray-500 focus:outline-none focus:border-primary-500 transition-colors"
                     placeholder="Your name"
@@ -127,8 +91,6 @@ export default function Contact() {
                     type="email"
                     id="email"
                     name="email"
-                    value={formData.email}
-                    onChange={handleChange}
                     required
                     className="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-3 text-white placeholder-gray-500 focus:outline-none focus:border-primary-500 transition-colors"
                     placeholder="your@email.com"
@@ -141,8 +103,6 @@ export default function Contact() {
                     type="text"
                     id="company"
                     name="company"
-                    value={formData.company}
-                    onChange={handleChange}
                     className="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-3 text-white placeholder-gray-500 focus:outline-none focus:border-primary-500 transition-colors"
                     placeholder="Your company"
                   />
@@ -153,8 +113,6 @@ export default function Contact() {
                   <textarea
                     id="message"
                     name="message"
-                    value={formData.message}
-                    onChange={handleChange}
                     required
                     rows={4}
                     className="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-3 text-white placeholder-gray-500 focus:outline-none focus:border-primary-500 transition-colors resize-none"
