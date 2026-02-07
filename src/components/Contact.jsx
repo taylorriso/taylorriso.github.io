@@ -61,7 +61,7 @@ export default function Contact() {
               </div>
 
               <form
-                action="https://formsubmit.co/taylor@trisoconsulting.com"
+                action="https://formsubmit.co/d37664080c8ef2410db0062ca2bde052"
                 method="POST"
                 className="space-y-5"
               >
